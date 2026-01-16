@@ -6,15 +6,13 @@
   <link rel="icon" href="yojit.jpg" type="image/jpg">
 
   <!-- LinkedIn -->
-  <script type="text/javascript" src="https://platform.linkedin.com/badges/js/profile.js" async defer></script>
+  <script src="https://platform.linkedin.com/badges/js/profile.js" async defer></script>
 
-  <!-- Particles.js for background -->
+  <!-- Particles.js -->
   <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
 
   <style>
-    html {
-      scroll-behavior: smooth;
-    }
+    html { scroll-behavior: smooth; }
 
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -26,7 +24,7 @@
       overflow-x: hidden;
     }
 
-    #particles-js, #starfield {
+    #particles-js {
       position: fixed;
       width: 100%;
       height: 100%;
@@ -35,14 +33,8 @@
       left: 0;
     }
 
-    h1, h2 {
-      margin-bottom: 10px;
-      transition: transform 0.2s ease;
-    }
-
-    h1 {
-      font-size: 48px;
-    }
+    h1 { font-size: 48px; }
+    h1, h2 { margin-bottom: 10px; }
 
     #typing {
       font-weight: bold;
@@ -52,13 +44,8 @@
     }
 
     @keyframes blinkCursor {
-      0%, 100% { border-color: transparent; }
+      0%,100% { border-color: transparent; }
       50% { border-color: black; }
-    }
-
-    a {
-      color: #333;
-      text-decoration: underline;
     }
 
     .btn {
@@ -73,25 +60,20 @@
       margin: 20px auto;
     }
 
-    .btn:hover {
-      background-color: #555;
-    }
+    .btn:hover { background-color: #555; }
 
     .about {
       margin: 60px auto 40px;
       max-width: 600px;
-      background-color: rgba(255, 255, 255, 0.9);
+      background: rgba(255,255,255,0.9);
       padding: 30px;
       border-radius: 15px;
       box-shadow: 0 8px 16px rgba(0,0,0,0.15);
-      opacity: 0;
-      transform: translateY(30px);
-      animation: fadeInUp 1s ease-in-out forwards;
-      transition: transform 0.2s ease;
+      animation: fadeInUp 1s ease forwards;
+      transition: transform 0.3s ease;
     }
-    .about:hover {
-  transform: translateY(-5px);
-}
+
+    .about:hover { transform: translateY(-5px); }
 
     .about img {
       width: 150px;
@@ -99,26 +81,29 @@
       border-radius: 50%;
       object-fit: cover;
       margin-bottom: 20px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
     }
 
     @keyframes fadeInUp {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .contact {
-      margin-top: 30px;
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     #clock {
-      margin-top: 40px;
-      font-size: 18px;
+      margin: 40px auto;
+      font-size: 20px;
+      padding: 12px 24px;
+      display: inline-block;
+      background: rgba(255,255,255,0.35);
+      border-radius: 12px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+      transition: transform 0.3s ease;
     }
+
+    #clock:hover { transform: scale(1.05); }
   </style>
 </head>
+
 <body>
   <div id="particles-js"></div>
 
@@ -127,104 +112,62 @@
 
   <p>This website will showcase my journey, projects, and achievements soon.</p>
 
-  <div id="about" class="about">
+  <div class="about">
     <img src="yojit.jpg" alt="Yojit Mittal">
     <h2>About Me</h2>
-    <p>I'm a high school student passionate about entrepreneurship, business innovation, and technology. Whether it's launching a startup idea, learning about finance, or building creative tech projects, I'm driven by curiosity and ambition. This space is where I share my growth as a future business leader and innovator.</p>
+    <p>I'm a high school student passionate about entrepreneurship, business innovation, and technology.</p>
   </div>
 
-  <a id="certificates" href="certificates.html" class="btn">View My Certificates</a>
-
-  <div style="display: flex; justify-content: center; align-items: center; margin-top: 30px;">
-    <div class="badge-base LI-profile-badge"
-         data-locale="en_US"
-         data-size="large"
-         data-theme="light"
-         data-type="HORIZONTAL"
-         data-vanity="yojit-mittal-348067361"
-         data-version="v1">
-      <a class="badge-base__link LI-simple-link" href="https://in.linkedin.com/in/yojit-mittal-348067361?trk=profile-badge">Yojit Mittal</a>
-    </div>
-  </div>
-
-  <div id="contact" class="contact">
-    <p>📷 Instagram: <a href="https://instagram.com/yojit.mittal" target="_blank">@yojit.mittal</a></p>
-    <p>📧 Email: <a href="mailto:yojit_mittal@yahoo.com">yojit_mittal@yahoo.com</a></p>
-  </div>
+  <a href="certificates.html" class="btn">View My Certificates</a>
 
   <div id="clock"></div>
 
   <script>
+    /* Typing effect */
     const words = ["a future entrepreneur.", "a business enthusiast.", "a tech lover.", "a dreamer."];
-    let i = 0, j = 0, currentWord = "", isDeleting = false;
+    let i = 0, j = 0, deleting = false;
 
     function type() {
-      const typing = document.getElementById("typing");
+      const el = document.getElementById("typing");
+      const word = words[i];
+      el.textContent = deleting ? word.slice(0, --j) : word.slice(0, ++j);
 
-      if (i < words.length) {
-        if (!isDeleting && j <= words[i].length) {
-          currentWord = words[i].substring(0, j++);
-        } else if (isDeleting && j >= 0) {
-          currentWord = words[i].substring(0, j--);
-        }
+      if (!deleting && j === word.length) deleting = true;
+      if (deleting && j === 0) { deleting = false; i = (i + 1) % words.length; }
 
-        typing.innerHTML = currentWord;
+      setTimeout(type, deleting ? 60 : 100);
+    }
+    type();
 
-        if (j === words[i].length) {
-          isDeleting = true;
-          setTimeout(type, 1000);
-        } else if (j === 0) {
-          isDeleting = false;
-          i = (i + 1) % words.length;
-          setTimeout(type, 500);
-        } else {
-          setTimeout(type, isDeleting ? 50 : 100);
+    /* Clock */
+    function updateClock() {
+      document.getElementById("clock").textContent =
+        new Date().toLocaleTimeString();
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    /* Particles */
+    particlesJS("particles-js", {
+      particles: {
+        number: { value: 60 },
+        size: { value: 3 },
+        color: { value: "#ffffff" },
+        line_linked: {
+          enable: true,
+          distance: 150,
+          color: "#ffffff",
+          opacity: 0.2
+        },
+        move: { enable: true, speed: 1 }
+      },
+      interactivity: {
+        events: {
+          onhover: { enable: true, mode: "repulse" },
+          onclick: { enable: true, mode: "push" }
         }
       }
-    }
-
-    #clock {
-  margin: 40px auto;
-  font-size: 20px;
-  padding: 12px 24px;
-  display: inline-block;
-  background: rgba(255, 255, 255, 0.35);
-  border-radius: 12px;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
-  transition: transform 0.3s ease;
-}
-
-#clock:hover {
-  transform: scale(1.05);
-}
-
-  particlesJS("particles-js", {
-  particles: {
-    number: { value: 60 },
-    size: { value: 3 },
-    color: { value: "#ffffff" },
-    line_linked: {
-      enable: true,
-      distance: 150,
-      color: "#ffffff",
-      opacity: 0.2
-    },
-    move: { enable: true, speed: 1 }
-  },
-  interactivity: {
-    detect_on: "canvas",
-    events: {
-      onhover: { enable: true, mode: "repulse" },
-      onclick: { enable: true, mode: "push" }
-    },
-    modes: {
-      repulse: { distance: 100, duration: 0.4 },
-      push: { particles_nb: 4 }
-    }
-  }
-});
+    });
   </script>
 </body>
 </html>

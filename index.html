@@ -89,6 +89,9 @@
       animation: fadeInUp 1s ease-in-out forwards;
       transition: transform 0.2s ease;
     }
+    .about:hover {
+  transform: translateY(-5px);
+}
 
     .about img {
       width: 150px;
@@ -180,30 +183,48 @@
       }
     }
 
-    type();
+    #clock {
+  margin: 40px auto;
+  font-size: 20px;
+  padding: 12px 24px;
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.35);
+  border-radius: 12px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+  transition: transform 0.3s ease;
+}
 
-    function updateClock() {
-      const now = new Date();
-      document.getElementById('clock').innerHTML = now.toLocaleTimeString();
+#clock:hover {
+  transform: scale(1.05);
+}
+
+  particlesJS("particles-js", {
+  particles: {
+    number: { value: 60 },
+    size: { value: 3 },
+    color: { value: "#ffffff" },
+    line_linked: {
+      enable: true,
+      distance: 150,
+      color: "#ffffff",
+      opacity: 0.2
+    },
+    move: { enable: true, speed: 1 }
+  },
+  interactivity: {
+    detect_on: "canvas",
+    events: {
+      onhover: { enable: true, mode: "repulse" },
+      onclick: { enable: true, mode: "push" }
+    },
+    modes: {
+      repulse: { distance: 100, duration: 0.4 },
+      push: { particles_nb: 4 }
     }
-
-    setInterval(updateClock, 1000);
-    updateClock();
-
-    particlesJS("particles-js", {
-      particles: {
-        number: { value: 60 },
-        size: { value: 3 },
-        color: { value: "#ffffff" },
-        line_linked: {
-          enable: true,
-          distance: 150,
-          color: "#ffffff",
-          opacity: 0.2
-        },
-        move: { enable: true, speed: 1 }
-      }
-    });
+  }
+});
   </script>
 </body>
 </html>
